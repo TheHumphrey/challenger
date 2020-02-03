@@ -1,15 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-function Search() {
-
-    function FilterDev() {
-
-    }
-
+function Search(props) {
     return (
         <div>
-            <input type='text' onChange={} />
-            <button type='button' onclick={FilterDev}> Pesquisar </button>
+            <input type='text' onChange={e => props.callback(e.target.value)} />
         </div>
     )
 }

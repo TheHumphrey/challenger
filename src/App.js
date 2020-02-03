@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, shouldComponentUpdate } from 'react';
 
 import './App.css';
 import './Main.css';
@@ -11,26 +11,31 @@ import Search from './components/SearchDev/index'
 function App() {
 
   const [devs, setDevs] = useState([])
+  const [filter, setFilter] = useState([])
+
+
 
   useEffect(() => {
     async function loadDevs() {
       const res = await api.get('/orgs/grupotesseract/public_members')
-
-      setDevs(res.data)
+      const resposta = res.data.map(obj => ({ ...obj, mostrar: false }))
+      setDevs(resposta.data)
     }
     loadDevs()
   }, [])
 
+
   return (
     <div className="App">
       <aside>
-        <Search />
+        <Search callback={setFilter} />
       </aside>
       <main>
         <div className="List">
           <ul>
-            {devs.map(dev => (
-              <DevItem key={dev.id} dev={dev} />
+            {console.log(filter)}
+            {devs.filter(dev => dev.login.toLowerCase().includes(filter.toString().toLowerCase())).map(dev => (
+              <DevItem key={dev.id} dev={dev} detalhes={setDevs.mostrar} />
             ))}
           </ul>
         </div>
