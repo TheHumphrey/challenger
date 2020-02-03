@@ -1,24 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+
 import './App.css';
+import './Main.css';
+
+import api from './services/api'
+
+import DevItem from './components/DevItem/index'
+import Search from './components/SearchDev/index'
 
 function App() {
+
+  const [devs, setDevs] = useState([])
+
+  useEffect(() => {
+    async function loadDevs() {
+      const res = await api.get('/orgs/grupotesseract/public_members')
+
+      setDevs(res.data)
+    }
+    loadDevs()
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <aside>
+        <Search />
+      </aside>
+      <main>
+        <div className="List">
+          <ul>
+            {devs.map(dev => (
+              <DevItem key={dev.id} dev={dev} />
+            ))}
+          </ul>
+        </div>
+      </main>
     </div>
   );
 }
