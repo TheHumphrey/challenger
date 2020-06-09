@@ -3,6 +3,8 @@ import React, { useState, useEffect, shouldComponentUpdate } from 'react';
 import './App.css';
 import './Main.css';
 
+//hewwo
+
 import api from './services/api'
 
 import DevItem from './components/DevItem/index'
